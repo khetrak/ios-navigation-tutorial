@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface LetraAViewController : UIViewController
-
+@property  NSMutableArray *ListaTela;
+@property NSArray *letra;
+@property int index;
+@property UIButton *botao;
 @end
