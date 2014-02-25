@@ -7,6 +7,7 @@
 //
 
 #import "LetraBViewController.h"
+#import "LetraCViewController.h"
 
 @implementation LetraBViewController
 
@@ -17,11 +18,8 @@
                              initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(next:)];
     self.navigationItem.rightBarButtonItem=next;
     
-    UIButton *botao = [UIButton
-                       buttonWithType:UIButtonTypeSystem];
-    [botao
-     setTitle:@"Mostre uma palavra, uma figura e leia a palavra ao apertar um botao"
-     forState:UIControlStateNormal];
+    UIButton *botao = [UIButton buttonWithType:UIButtonTypeSystem];
+    [botao setTitle:@"Mostre uma palavra, uma figura e leia a palavra ao apertar um botao" forState:UIControlStateNormal];
     [botao sizeToFit];
     botao.center = self.view.center;
     
@@ -31,8 +29,8 @@
 }
 
 -(void)next:(id)sender {
-  // Continue com as proximas letras
-    
+        LetraCViewController *proximo = [[LetraCViewController alloc] initWithNibName:nil bundle:NULL];
+        [self.navigationController pushViewController:proximo animated:YES];
 }
 
 
