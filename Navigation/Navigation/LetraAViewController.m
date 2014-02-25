@@ -59,7 +59,7 @@
 -(void)palavra:(id)sender
 {
     [sender setTitleColor: [UIColor redColor] forState: UIControlStateNormal];
-    [sender setTitle:@"A" forState:UIControlStateNormal];
+    [sender setTitle:_letra[index] forState:UIControlStateNormal];
 }
 
 -(void)next:(id)sender
