@@ -11,6 +11,7 @@
 @interface LetraAViewController : UIViewController
 @property  NSMutableArray *ListaTela;
 @property NSArray *letra;
+@property NSArray *palavra;
 @property int index;
 @property UIButton *botao;
 @end

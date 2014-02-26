@@ -7,6 +7,7 @@
 //
 
 #import "LetraAViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 @implementation LetraAViewController
 @synthesize index;
@@ -18,6 +19,7 @@
     
     _ListaTela = [[NSMutableArray alloc]init];
     _letra= [@"A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z" componentsSeparatedByString:@","];
+    _palavra= [@"aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq,rr,ss,tt,uu,vv,ww,xx,yy,zz" componentsSeparatedByString:@","];//troca a letra dupla pela palavra correta
     
     [self criarTelas];
     
@@ -28,19 +30,19 @@
     self.navigationItem.rightBarButtonItem=next;
     
     UIBarButtonItem *back = [[UIBarButtonItem alloc]
-                             initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(back:)];
+                             initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:@selector(back:)];
     self.navigationItem.leftBarButtonItem=back;
     
     
     
     _botao = [UIButton buttonWithType:UIButtonTypeSystem];
-    [_botao setTitle:@"aperta para mostrar uma palavra" forState:UIControlStateNormal];
-    [_botao sizeToFit];
-    [_botao addTarget:self action:@selector(palavra:) forControlEvents:UIControlEventTouchUpInside];
+    [_botao addTarget:self action:@selector(botao:) forControlEvents:UIControlEventTouchUpInside];
     _botao.center = self.view.center;
-    
-    [self.view addSubview:_botao];
-    
+    CGRect frame = _botao.frame;
+    frame.origin.x=48.27;
+    frame.origin.y=450;
+    _botao.frame=frame;
+    [self criadorDeBoatao];
  
 }
 -(void)criarTelas
@@ -56,25 +58,44 @@
  
 }
 
--(void)palavra:(id)sender
+-(void)criadorDeBoatao
 {
-    [sender setTitleColor: [UIColor redColor] forState: UIControlStateNormal];
-    [sender setTitle:_letra[index] forState:UIControlStateNormal];
+    [_botao setTitle:@"aperta para mostrar uma palavra" forState:UIControlStateNormal];
+    [_botao sizeToFit];
+    [self.view addSubview:_botao];
+}
+-(void)botao:(id)sender
+{
+    [sender setTitle:_palavra[index] forState:UIControlStateNormal];
+    AVSpeechSynthesisVoice *voz = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-US"];
+    AVSpeechUtterance *frase = [[AVSpeechUtterance alloc]initWithString:[_palavra objectAtIndex:index]];
+    frase.rate = AVSpeechUtteranceMinimumSpeechRate;
+    AVSpeechSynthesizer *speechsynt = [[AVSpeechSynthesizer alloc]init];
+    [frase setVoice:voz];
+    [speechsynt speakUtterance:frase];
 }
 
 -(void)next:(id)sender
 {
     
     index++;
+    if(index > 25)
+    {
+        index = 0;
+    }
     self.view = (UIView *)[_ListaTela objectAtIndex:index];
     self.title = _letra[index];
-    [self.view addSubview:_botao];
+    [self criadorDeBoatao];
 }
 -(void)back:(id)sender
 {
     index--;
+    if(index < 0)
+    {
+        index = 25;
+    }
     self.view = (UIView *)[_ListaTela objectAtIndex:index];
     self.title = _letra[index];
-    [self.view addSubview:_botao];
+    [self criadorDeBoatao];
 }
 @end
